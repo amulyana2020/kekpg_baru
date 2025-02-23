@@ -118,6 +118,7 @@ def submission_detail(request, slug):
         'reviewers': reviewers,
         'decisions': decisions,
         'revisions': revisions,
+
         'amandements': amandements
     }
 

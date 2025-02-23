@@ -45,6 +45,23 @@ CATEGORY_CHOICES = (
     ('BELUM DITENTUKAN', _('Belum Ditentukan')),
 )
 
+PRODI_CHOICES = (
+    ('SARJANA', _('Sarjana')),
+    ('PROFESI', _('Profesi')),
+    ('MASTER', _('Master')),
+    ('SPESIALIS', _('Spesialis')),
+    ('DOKTOR', _('Doktor')),
+    ('UMUM', _('Umum')),
+    ('DOSEN', _('Dosen')),
+)
+
+SAMPLE_CHOICES = (
+    ('PASIEN ATAU MASYARAKAT', _('Pasien atau Masyarakat')),
+    ('BAHAN BIOLOGIS TERSIMPAN', _('Bahan Biologis Tersimpan')),
+    ('REKAM MEDIK', _('Rekam Medik (Termasuk Foto Radiografik, Model Gigi)')),
+    ('MATERIAL NON BIOLOGIS', _('Material Non Biologis')),
+)
+
 
 class Profile(models.Model):
   fullname = models.CharField(verbose_name="Nama lengkap beserta gelar", max_length=250, null=True, blank=True)
@@ -71,11 +88,11 @@ class Profile(models.Model):
 class Submission(models.Model):
     user = models.ForeignKey(User, related_name='author', verbose_name="Nama Peneliti", on_delete=models.CASCADE)
     title = models.CharField(max_length=120, verbose_name="Judul Penelitian", null=False, blank=False)
-    study_program = models.CharField(max_length=500, verbose_name="Program Studi", null=False, blank=False)
-    sample_or_subject = models.CharField(max_length=500, verbose_name="Sample / Subject", null=False, blank=False)
+    study_program = models.CharField(max_length=500, choices=PRODI_CHOICES, verbose_name="Program Studi", null=False, blank=False)
+    sample_or_subject = models.CharField(max_length=500, choices=SAMPLE_CHOICES, verbose_name="Sample / Subject", null=False, blank=False)
     data = models.CharField(max_length=255, choices=DATA_CHOICES, verbose_name="Data Primer/Sekunder", default="PRIMER", null=False, blank=False)
     submission_file = models.FileField(upload_to='file/submission/', verbose_name="Formulir Pengajuan (Dokumen A)", null=False, blank=False)
-    consent_file = models.FileField(upload_to='file/consent/', verbose_name="Informed Consent", null=False, blank=False)
+    consent_file = models.FileField(upload_to='file/consent/', verbose_name="Informed Consent", null=True, blank=True)
     agreement_file = models.FileField(upload_to='file/agreement/', verbose_name="Lembar Persetujuan", null=False, blank=False)
     institution_letter = models.FileField(upload_to='file/institution_letter/', verbose_name="Surat Pengantar dari Institusi", null=False, blank=False)
     statement_letter = models.FileField(upload_to='file/statement_letter/', verbose_name="Surat Pernyataan penelitian belum dilaksanakan sebelum pengajuan kelaikan etik", null=False, blank=False)
