@@ -62,6 +62,30 @@ SAMPLE_CHOICES = (
     ('MATERIAL NON BIOLOGIS', _('Material Non Biologis')),
 )
 
+class News(models.Model):
+    title = models.CharField(verbose_name="Judul Berita", max_length=255, null=False, blank=False)
+    contain = models.TextField(verbose_name="Isi Berita", null=False, blank=False)
+    created_at = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return '%s %s' % (self.title, self.created_at)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super(News, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('news_detail', args=[self.slug])
+
+    def get_update_url(self):
+        return reverse('news_update', args=[self.slug])
+
+    def get_delete_url(self):
+        return reverse('news_delete', args=[self.slug])
 
 class Profile(models.Model):
   fullname = models.CharField(verbose_name="Nama lengkap beserta gelar", max_length=250, null=True, blank=True)

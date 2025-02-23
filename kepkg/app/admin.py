@@ -1,9 +1,10 @@
 from django.contrib import admin
-from .models import Profile, Status, Reviewer, Review, Decision, Resubmission
+from .models import Profile, Status, Reviewer, Review, Decision, Resubmission, News
 
 admin.site.register(Reviewer)
 admin.site.register(Decision)
 admin.site.register(Resubmission)
+admin.site.register(News)
 
 
 # Register your models here.
@@ -20,3 +21,7 @@ class StatusAdmin(admin.ModelAdmin):
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
     list_display = ["submission", "file_review"]
+
+@admin.register(News)
+class NewsAdmin(admin.ModelAdmin):
+    list_display = ["title", "created_at"]

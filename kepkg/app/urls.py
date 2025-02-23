@@ -1,7 +1,7 @@
 
 from django.contrib import admin
 from django.urls import path
-from .views import amandement, amandement_update, amandement_detail, amandement_list, my_amandement_list, resubmission_detail, resubmission_list, my_resubmission_list, resubmission_update, resubmission, decision, reviewer_submission_list, reviewer, reviewer_detail, reviewer_delete, reviewer_update, dashboard, register, profile, submission_create, submission_delete, submission_detail, submission_update, submission_list, my_submission_list, success, profile_update, status_update, review
+from .views import news_list, news_create, news_detail, news_update, news_delete, amandement, amandement_update, amandement_detail, amandement_list, my_amandement_list, resubmission_detail, resubmission_list, my_resubmission_list, resubmission_update, resubmission, decision, reviewer_submission_list, reviewer, reviewer_detail, reviewer_delete, reviewer_update, dashboard, register, profile, submission_create, submission_delete, submission_detail, submission_update, submission_list, my_submission_list, success, profile_update, status_update, review
 
 urlpatterns = [
     path('', dashboard, name="dashboard"),
@@ -32,4 +32,9 @@ urlpatterns = [
     path('amandement/<id>/', amandement_detail, name="amandement_detail"),
     path('amandement/<id>/update', amandement_update, name="amandement_update"),
     path('amandement/<slug:slug>/new', amandement, name="amandement"),
+    path('news/', news_list, name='news_list'),
+    path('news/new/', news_create, name='news_create'),
+    path('news/<slug:slug>/', news_detail, name='news_detail'),
+    path('news/<slug:slug>/update/', news_update, name='news_update'),
+    path('news/<slug:slug>/delete/', news_delete, name='news_delete'),
 ]

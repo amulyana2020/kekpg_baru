@@ -6,8 +6,8 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from .models import Profile, Submission, Status, Review, Reviewer, Decision, Resubmission, Amandement
-from .forms import AmandementForm, AmandementUpdateForm, ResubmissionUpdateForm, ResubmissionForm, DecisionForm,ReviewerForm, UserRegistrationForm, UserForm, SubmissionForm, ProfileForm, StatusForm, ReviewForm
+from .models import Profile, Submission, Status, Review, Reviewer, Decision, Resubmission, Amandement, News
+from .forms import NewsForm, AmandementForm, AmandementUpdateForm, ResubmissionUpdateForm, ResubmissionForm, DecisionForm,ReviewerForm, UserRegistrationForm, UserForm, SubmissionForm, ProfileForm, StatusForm, ReviewForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from bootstrap_datepicker_plus.widgets import DatePickerInput
@@ -570,4 +570,40 @@ def amandement_detail(request, id):
     }
 
     return render(request, 'dashboard/submission/amandement_detail.html', context)
+
+
+@login_required
+@staff_member_required
+def news_create(request):
+    form = NewsForm()
+    if request.method == 'POST':
+        form = NewsForm(request.POST, request.FILES)
+        if form.is_valid():
+            news_form = form.save(commit=False)
+            news_form.user = request.user
+            news_form.save()
+        #send_templated_mail(
+        #    template_name='submission',
+        #    from_email='info_kppikg@ui.ac.id',
+        #    recipient_list=['scientific_kppikg@ui.ac.id'],
+       #     context={
+        #        'full_name': request.user.get_full_name(),
+        #    },
+            # Optional:
+            # cc=['cc@example.com'],
+            # bcc=['bcc@example.com'],
+            # headers={'My-Custom-Header':'Custom Value'},
+            # template_prefix="my_emails/",
+            # template_suffix="email",
+        #)
+
+        messages.success(request, 'News is succesfully created.')
+        slug = form.instance.slug
+        news = get_object_or_404(News, slug=slug)
+
+        return redirect(news.get_absolute_url())
+    context = {
+        'form': form
+    }
+    return render(request, 'dashboard/news/news_create.html', context)
 

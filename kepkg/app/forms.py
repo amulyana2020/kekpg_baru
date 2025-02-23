@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Profile, Submission, Status, Review, Reviewer, Decision, Resubmission, Amandement
+from .models import Profile, Submission, Status, Review, Reviewer, Decision, Resubmission, Amandement, News
 from bootstrap_datepicker_plus.widgets  import DatePickerInput
 from django_select2.forms import Select2Widget, Select2MultipleWidget
 
@@ -112,5 +112,14 @@ class AmandementUpdateForm(forms.ModelForm):
         model = Amandement
         fields = '__all__'
         exclude = ['submission'  ]
+
+
+class NewsForm(forms.ModelForm):
+
+    class Meta:
+        model = News
+        fields = '__all__'
+        exclude = [ 'created_at'  ]
+
 
 
